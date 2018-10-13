@@ -1,0 +1,34 @@
+{
+  "name": "esp32-js-server",
+  "version": "1.0.0",
+  "description": "ESP32 flasher and simple wifi server",
+  "main": "index.js",
+  "scripts": {
+    "erase": "esptool.py --port /dev/cu.SLAB_USBtoUART erase_flash",
+    "flash": "esptool.py --chip esp32 --port /dev/cu.SLAB_USBtoUART  --baud 921600 --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 firmware/bootloader.bin 0x8000 firmware/partitions_espruino.bin 0x10000 firmware/espruino_esp32.bin",
+    "reset": "npm run erase && npm run flash",
+    "reupload": "npm run reset && npm run upload",
+    "screen": "screen /dev/cu.SLAB_USBtoUART 115200",
+    "uglify": "uglifyjs src/* --compress --mangle -o ./index.js ",
+    "upload": "espruino --port /dev/cu.SLAB_USBtoUART --board ESP32 -b 115200 -e 'save()' index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aliustaoglu/esp32-js-server.git"
+  },
+  "keywords": [
+    "esp32",
+    "iot",
+    "espruino"
+  ],
+  "author": "Cuneyt Aliustaoglu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aliustaoglu/esp32-js-server/issues"
+  },
+  "homepage": "https://github.com/aliustaoglu/esp32-js-server#readme",
+  "devDependencies": {
+    "espruino": "^0.1.13",
+    "uglify-js": "^3.4.9"
+  }
+}
